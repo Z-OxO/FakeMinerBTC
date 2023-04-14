@@ -23,6 +23,10 @@
         <pre><code>git clone https://github.com/Z-OxO/FakeMinerBTC.git</code></pre>
       </li>
       <li>
+      Install the requirements
+      <pre><code>pip install -r requirements.txt</pre></code>
+      </li>
+      <li>
         Navigate to the project directory.
         <pre><code>cd FakeMiner</code></pre>
       </li>
