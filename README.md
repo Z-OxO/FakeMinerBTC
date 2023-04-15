@@ -25,6 +25,7 @@
       <li>
       Install the requirements
       <pre><code>pip install -r requirements.txt</pre></code>
+      <pre><code>pip install rainbowtext</pre></code>
       </li>
       <li>
         Navigate to the project directory.
@@ -52,6 +53,7 @@
       process in a basic way. I hope you find it informative and helpful in
       understanding how mining works. As a beginner, I welcome any feedback or
       suggestions for improvement.
+      ( the project is optimized for window but you can also use it on linux )
     </p>
   </body>
 </html>
