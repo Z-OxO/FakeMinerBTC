@@ -23,7 +23,7 @@ banner_text = '''
  
 '''
 
-banner_verif1 = Fore.CYAN+''' 
+banner_verif1 = ''' 
                  _                                                      _   _       _           _     _                       
      /\         | |                                                    | | (_)     | |         | |   (_)                      
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __        
@@ -34,7 +34,7 @@ banner_verif1 = Fore.CYAN+'''
                                                                                                                               
  '''
 
-banner_verif2 = Fore.CYAN+'''
+banner_verif2 = '''
                  _                                                      _   _       _           _     _                           
      /\         | |                                                    | | (_)     | |         | |   (_)                          
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __            
@@ -45,7 +45,7 @@ banner_verif2 = Fore.CYAN+'''
                                                                                                                                                                       
  '''
 
-banner_verif3 = Fore.CYAN+'''
+banner_verif3 = '''
                  _                                                      _   _       _           _     _                               
      /\         | |                                                    | | (_)     | |         | |   (_)                              
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __                
@@ -98,23 +98,28 @@ banner_bank = '''
  |____/   \__,_| |_| |_| |_|\_|
                                
 '''
-
-
 #BTC live price
-url = "https://www.coinhouse.com/fr/cours-bitcoin/"
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-balise = soup.find('div', {'class': 'mcw-price'})
-if balise is not None:
-    # récupérer la valeur de la balise
-    valeur = balise.text
-    # afficher la valeur récupérée
-valeur_btc=""
-for caractere in valeur:
-    if caractere.isdigit():
-        valeur_btc += caractere
-print(Fore.CYAN+"The BTC value is",valeur_btc,"$")
+def Btc_live():
+    try:
+        url = "https://www.coinhouse.com/fr/cours-bitcoin/"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        balise = soup.find('div', {'class': 'mcw-price'})
+        if balise is not None:
+            # récupérer la valeur de la balise
+            valeur = balise.text
+            # afficher la valeur récupérée
+        valeur_btc=""
+        for caractere in valeur:
+            if caractere.isdigit():
+                valeur_btc += caractere
+        print(Fore.CYAN+"The BTC value is",valeur_btc,"$")
+    except:
+        print("Bitcoin price synchronisation error")
+        return False
 
+
+Btc_live()
 
 # Création du dossier "FakeMiner" s'il n'existe pas déjà
 if not os.path.exists("FakeMiner"):
@@ -153,7 +158,7 @@ def Miner():
         if x == y:
             # Création valeur du btc et affichage
             btc = round(uniform(0, 0.05), 3)
-            price_btc = btc*valeur_btc
+            price_btc = btc*20000
             print(Fore.GREEN + "| ", str(hex), " |", btc,
                   "BTC FOUND", " (", price_btc, "$", ")")
             print(Style.RESET_ALL)
