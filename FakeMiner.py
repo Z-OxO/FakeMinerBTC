@@ -100,6 +100,7 @@ banner_bank = '''
 '''
 #BTC live price
 def Btc_live():
+    global valeur_btc
     try:
         url = "https://coinmarketcap.com/fr/currencies/bitcoin/"
         response = requests.get(url)
@@ -114,12 +115,14 @@ def Btc_live():
                 if caractere.isdigit():
                     valeur_btc += caractere
             print(Fore.CYAN+"The BTC value is",valeur_btc,"$")
+            return True
         else:
             print("Bitcoin price not found")
             return False
     except:
         print("Bitcoin price synchronization error")
         return False
+
 
 
 Btc_live()
@@ -162,6 +165,7 @@ def loading(image1, image2, image3):
 
 # Fonction de minage
 def Miner():
+    global valeur_btc
     for i in range(1, 9):
         loading(banner_mining1, banner_mining2, banner_mining3)
     while True:
@@ -172,7 +176,10 @@ def Miner():
         if x == y:
             # Création valeur du btc et affichage
             btc = round(uniform(0, 0.05), 3)
-            price_btc = btc*20000
+            if Btc_live() == True:
+                price_btc = float(btc)*float(valeur_btc)
+            else:
+                price_btc = btc*30000
             print(Fore.GREEN + "| ", str(hex), " |", btc,
                   "BTC FOUND", " (", price_btc, "$", ")")
             print(Style.RESET_ALL)
@@ -187,9 +194,9 @@ def Miner():
             break
     Menu()
 
+
+
 # Menu
-
-
 def Menu():
     print(banner_text)
     choice = ""
