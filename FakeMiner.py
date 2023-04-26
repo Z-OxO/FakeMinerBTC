@@ -18,12 +18,12 @@ banner_text = '''
 ║╚╝╚╗ ║║ ╚╝║║╚╝║║ ╚╝║║ ║║ ║║ ║╔╗╚╝║    ║╔╗╔╗║ ║║ ║╔╗╚╝║║╚══╗║╚═╝║    ╔╗╔╗╚╝╔╝║
 ║╔═╗║ ║║   ║║  ║║ ╔╗║║ ║║ ║║ ║║╚╗║║    ║║║║║║ ║║ ║║╚╗║║║╔══╝║╔╗╔╝    ║╚╝║╔═╝╔╝
 ║╚═╝║╔╣╠╗ ╔╝╚╗ ║╚═╝║║╚═╝║╔╣╠╗║║ ║║║    ║║║║║║╔╣╠╗║║ ║║║║╚══╗║║║╚╗    ╚╗╔╝║║╚═╗
-╚═══╝╚══╝ ╚══╝ ╚═══╝╚═══╝╚══╝╚╝ ╚═╝    ╚╝╚╝╚╝╚══╝╚╝ ╚═╝╚═══╝╚╝╚═╝     ╚╝ ╚═══╝         
- ---------------------------------------------------------------------------               
+╚═══╝╚══╝ ╚══╝ ╚═══╝╚═══╝╚══╝╚╝ ╚═╝    ╚╝╚╝╚╝╚══╝╚╝ ╚═╝╚═══╝╚╝╚═╝     ╚╝ ╚═══╝ 
+ ---------------------------------------------------------------------------  
  
 '''
 
-banner_verif1 = ''' 
+banner_verif1 = """
                  _                                                      _   _       _           _     _                       
      /\         | |                                                    | | (_)     | |         | |   (_)                      
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __        
@@ -32,9 +32,9 @@ banner_verif1 = '''
  /_/    \_\  \__,_| |_|     \___| |___/ |___/  \___|     \_/    \__,_| |_| |_|  \__,_|  \__,_|  \__| |_|  \___/  |_| |_|   (_)
                                                                                                                               
                                                                                                                               
- '''
+ """
 
-banner_verif2 = '''
+banner_verif2 = """
                  _                                                      _   _       _           _     _                           
      /\         | |                                                    | | (_)     | |         | |   (_)                          
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __            
@@ -43,9 +43,9 @@ banner_verif2 = '''
  /_/    \_\  \__,_| |_|     \___| |___/ |___/  \___|     \_/    \__,_| |_| |_|  \__,_|  \__,_|  \__| |_|  \___/  |_| |_|   (_) (_)
                                                                                                                                   
                                                                                                                                                                       
- '''
+ """
 
-banner_verif3 = '''
+banner_verif3 = """
                  _                                                      _   _       _           _     _                               
      /\         | |                                                    | | (_)     | |         | |   (_)                              
     /  \      __| |  _ __    ___   ___   ___    ___    __   __   __ _  | |  _    __| |   __ _  | |_   _    ___    _ __                
@@ -54,7 +54,7 @@ banner_verif3 = '''
  /_/    \_\  \__,_| |_|     \___| |___/ |___/  \___|     \_/    \__,_| |_| |_|  \__,_|  \__,_|  \__| |_|  \___/  |_| |_|   (_) (_) (_)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
- '''
+ """
 
 banner_mining1 = '''
 
@@ -101,21 +101,24 @@ banner_bank = '''
 #BTC live price
 def Btc_live():
     try:
-        url = "https://www.coinhouse.com/fr/cours-bitcoin/"
+        url = "https://coinmarketcap.com/fr/currencies/bitcoin/"
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
-        balise = soup.find('div', {'class': 'mcw-price'})
+        balise = soup.find('div', {'class': 'priceValue'})
         if balise is not None:
             # récupérer la valeur de la balise
             valeur = balise.text
             # afficher la valeur récupérée
-        valeur_btc=""
-        for caractere in valeur:
-            if caractere.isdigit():
-                valeur_btc += caractere
-        print(Fore.CYAN+"The BTC value is",valeur_btc,"$")
+            valeur_btc=""
+            for caractere in valeur:
+                if caractere.isdigit():
+                    valeur_btc += caractere
+            print(Fore.CYAN+"The BTC value is",valeur_btc,"$")
+        else:
+            print("Bitcoin price not found")
+            return False
     except:
-        print("Bitcoin price synchronisation error")
+        print("Bitcoin price synchronization error")
         return False
 
 
@@ -133,20 +136,31 @@ if not os.path.exists(filename):
 
 
 def loading(image1, image2, image3):
-    os.system("cls")
-    print(image1)
-    sleep(0.3)
-    os.system("cls")
-    print(image2)
-    sleep(0.3)
-    os.system("cls")
-    print(image3)
-    sleep(0.3)
-    os.system("cls")
+        if os.name == "posix":
+            os.system("clear")
+        else:
+            os.system("cls")
+        print(image1)
+        sleep(0.3)
+        if os.name == "posix":
+            os.system("clear")
+        else:
+            os.system("cls")
+        print(image2)
+        sleep(0.3)
+        if os.name == "posix":
+            os.system("clear")
+        else:
+            os.system("cls")
+        print(image3)
+        sleep(0.3)
+        if os.name == "posix":
+            os.system("clear")
+        else:
+            os.system("cls")
+
 
 # Fonction de minage
-
-
 def Miner():
     for i in range(1, 9):
         loading(banner_mining1, banner_mining2, banner_mining3)
