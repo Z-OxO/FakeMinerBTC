@@ -1,3 +1,5 @@
 colorama==0.4.4
 secrets==1.0.2
 pyproject-toml==0.0.10
+hashlib==3.2.2
+binascii==1.2.3
