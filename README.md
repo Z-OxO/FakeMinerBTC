@@ -25,7 +25,6 @@
       <li>
       Install the requirements
       <pre><code>pip install -r requirements.txt</pre></code>
-      <pre><code>pip install rainbowtext</pre></code>
       </li>
       <li>
         Navigate to the project directory.
