@@ -5,6 +5,10 @@ from secrets import *
 import os
 import requests
 from bs4 import BeautifulSoup
+import base58
+import hashlib
+import binascii
+
 
 just_fix_windows_console()
 print(Style.RESET_ALL)
@@ -98,6 +102,8 @@ banner_bank = '''
  |____/   \__,_| |_| |_| |_|\_|
                                
 '''
+x = randint(1, 1000)
+
 #BTC live price
 def Btc_live():
     global valeur_btc
@@ -123,6 +129,40 @@ def Btc_live():
         print("Bitcoin price synchronization error")
         return False
 
+
+# Menu de la vérification de l'adresse
+def Decoder_menu():
+    global adresse
+    Fore.RESET
+    adresse = input("Enter a bitcoin address (type 'end' to exit): ")
+    if adresse == "end":
+        exit("Program interrupted by user")
+    for i in range(1, 12):
+        loading(banner_verif1, banner_verif2, banner_verif3)
+    sleep(4)
+    Fore.RESET
+    Decode(adresse)
+    Menu()
+
+
+# Vérification de l'adresse
+def Decode(adresse):
+    base58Decoder = base58.b58decode(adresse).hex()
+    prefixAndHash = base58Decoder[:len(base58Decoder)-8]
+    checksum = base58Decoder[len(base58Decoder)-8:]
+    hash = prefixAndHash
+    for x in range(1,3):
+        hash = hashlib.sha256(binascii.unhexlify(hash)).hexdigest()
+    if (checksum == hash[:8]):
+            print(Fore.GREEN+"BTC adress is valid !")
+            sleep(3)
+            Fore.RESET
+            Menu()
+    else:
+        print(Fore.RED+"BTC adress is not valid !")
+        Fore.RESET
+        sleep(3)
+        Decoder_menu()
 
 
 Btc_live()
@@ -166,6 +206,7 @@ def loading(image1, image2, image3):
 # Fonction de minage
 def Miner():
     global valeur_btc
+    global adresse
     for i in range(1, 9):
         loading(banner_mining1, banner_mining2, banner_mining3)
     while True:
@@ -226,15 +267,6 @@ def Bank():
     while bank_choice != "Y":
         bank_choice = input("Go to the menu ? Y ")
     Menu()
+    
 
-
-# Vérification de l'adresse
-x = randint(1, 1000)
-adresse = input("Enter a bitcoin address: ")
-while len(adresse) not in [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]:
-    print("Invalid address")
-    adresse = input("Enter a bitcoin address: ")
-for i in range(1, 12):
-    loading(banner_verif1, banner_verif2, banner_verif3)
-sleep(4)
-Menu()
+Decoder_menu()
